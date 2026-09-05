@@ -1,6 +1,6 @@
 /// A reactive store that holds state and notifies observers on change.
 class StateStore<State> {
-  State _state;
+  final State _state;
 
   StateStore(this._state);
 
