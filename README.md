@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AKS-Work/.github/main/assets/syzygy-banner-dark.png">
-    <img alt="Syzygy" src="https://raw.githubusercontent.com/AKS-Work/.github/main/assets/syzygy-banner-light.png" width="600">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Syzygy-Hub/.github/main/assets/syzygy-banner-dark.png">
+    <img alt="Syzygy" src="https://raw.githubusercontent.com/Syzygy-Hub/.github/main/assets/syzygy-banner-light.png" width="600">
   </picture>
 </p>
 
@@ -9,7 +9,7 @@
 <p align="center">Pure app-infrastructure framework for Flutter — DI, state, events, logging, feature flags, navigation, validation, configuration, lifecycle &amp; scheduling.</p>
 
 <p align="center">
-  <a href="https://github.com/AKS-Work/syzygy-core-flutter/actions/workflows/ci.yml"><img src="https://github.com/AKS-Work/syzygy-core-flutter/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/Syzygy-Hub/syzygy-core-flutter/actions/workflows/ci.yml"><img src="https://github.com/Syzygy-Hub/syzygy-core-flutter/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version">
   <img src="https://img.shields.io/badge/dart-%3E%3D3.0.0-0175C2?logo=dart" alt="Dart">
   <img src="https://img.shields.io/badge/flutter-%3E%3D3.0-02569B?logo=flutter" alt="Flutter">
@@ -41,7 +41,7 @@ Add the dependency to your `pubspec.yaml`:
 dependencies:
   syzygy_core_flutter:
     git:
-      url: https://github.com/AKS-Work/syzygy-core-flutter.git
+      url: https://github.com/Syzygy-Hub/syzygy-core-flutter.git
       ref: 1.0.0
 ```
 
@@ -78,7 +78,7 @@ final scheduler = Scheduler();
 
 This package is part of **Syzygy** — a modular, multi-platform app architecture.
 
-→ [Syzygy Hub](https://github.com/AKS-Work)
+→ [Syzygy Hub](https://github.com/Syzygy-Hub)
 
 ## License
 
