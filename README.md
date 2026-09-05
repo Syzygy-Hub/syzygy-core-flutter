@@ -1,20 +1,13 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Syzygy-Hub/.github/main/assets/syzygy-banner-dark.png">
-    <img alt="Syzygy" src="https://raw.githubusercontent.com/Syzygy-Hub/.github/main/assets/syzygy-banner-light.png" width="600">
-  </picture>
-</p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Syzygy-Hub/.github/main/brand/assets/banners/syzygy-banner-dark-1200.png">
+  <img src="https://raw.githubusercontent.com/Syzygy-Hub/.github/main/brand/assets/banners/syzygy-banner-light-1200.png" alt="Syzygy" width="600">
+</picture>
 
-<h3 align="center">syzygy-core-flutter</h3>
-<p align="center">Pure app-infrastructure framework for Flutter — DI, state, events, logging, feature flags, navigation, validation, configuration, lifecycle &amp; scheduling.</p>
+# syzygy-core-flutter
 
-<p align="center">
-  <a href="https://github.com/Syzygy-Hub/syzygy-core-flutter/actions/workflows/ci.yml"><img src="https://github.com/Syzygy-Hub/syzygy-core-flutter/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version">
-  <img src="https://img.shields.io/badge/dart-%3E%3D3.0.0-0175C2?logo=dart" alt="Dart">
-  <img src="https://img.shields.io/badge/flutter-%3E%3D3.0-02569B?logo=flutter" alt="Flutter">
-  <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
-</p>
+[![Flutter](https://img.shields.io/badge/Flutter-Dart-7F77DD?style=flat)](https://flutter.dev/) [![Dart](https://img.shields.io/badge/Dart-3.0-0175C2?logo=dart&logoColor=white&style=flat)](https://dart.dev/) [![CI](https://img.shields.io/github/actions/workflow/status/Syzygy-Hub/syzygy-core-flutter/ci.yml?label=ci&style=flat)](https://github.com/Syzygy-Hub/syzygy-core-flutter/actions/workflows/ci.yml) [![Version](https://img.shields.io/badge/version-1.0.0-D85A30?style=flat)](https://github.com/Syzygy-Hub/syzygy-core-flutter/releases) [![License](https://img.shields.io/badge/License-MIT-green?style=flat)](LICENSE)
+
+Core infrastructure modules for the Syzygy Flutter ecosystem — dependency injection, state management, event bus, logging, feature flags, navigation, validation, configuration, app lifecycle, and scheduling.
 
 ---
 
