@@ -7,6 +7,15 @@
 .buildlog/
 .history
 
+# macOS
+.DS_Store
+.github/.DS_Store
+**/.DS_Store
+
+# Lint/analysis config (fetched from org CI — not committed)
+analysis_options.yaml
+.editorconfig
+
 
 
 # Flutter repo-specific

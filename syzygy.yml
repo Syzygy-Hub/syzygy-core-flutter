@@ -1,0 +1,9 @@
+name: syzygy-core-flutter
+type: core
+platform: flutter
+language: dart
+package_manager: pub.dev
+version: 1.0.0
+dependencies:
+  - name: syzygy-foundation-flutter
+    version: ">=1.1.0"
