@@ -20,4 +20,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - App Lifecycle — foreground/background state tracking, lifecycle observers, lifecycle-aware scoping
 - Scheduling — debounce, throttle, delayed execution, cancellable timers
 
-[1.0.0]: https://github.com/AKS-Work/syzygy-core-flutter/releases/tag/1.0.0
+[1.0.0]: https://github.com/Syzygy-Hub/syzygy-core-flutter/releases/tag/1.0.0
