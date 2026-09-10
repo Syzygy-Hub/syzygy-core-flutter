@@ -1,11 +1,11 @@
+[![Flutter](https://img.shields.io/badge/Flutter-Dart-7F77DD?style=flat)](https://flutter.dev/) [![Dart](https://img.shields.io/badge/Dart-3.0-0175C2?logo=dart&logoColor=white&style=flat)](https://dart.dev/) [![CI](https://img.shields.io/github/actions/workflow/status/Syzygy-Hub/syzygy-core-flutter/ci.yml?label=ci&style=flat)](https://github.com/Syzygy-Hub/syzygy-core-flutter/actions/workflows/ci.yml) [![Version](https://img.shields.io/badge/version-1.0.0-D85A30?style=flat)](https://github.com/Syzygy-Hub/syzygy-core-flutter/releases) [![License](https://img.shields.io/badge/License-MIT-green?style=flat)](LICENSE)
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Syzygy-Hub/.github/main/brand/assets/banners/syzygy-banner-dark-1200.png">
   <img src="https://raw.githubusercontent.com/Syzygy-Hub/.github/main/brand/assets/banners/syzygy-banner-light-1200.png" alt="Syzygy" width="600">
 </picture>
 
 # syzygy-core-flutter
-
-[![Flutter](https://img.shields.io/badge/Flutter-Dart-7F77DD?style=flat)](https://flutter.dev/) [![Dart](https://img.shields.io/badge/Dart-3.0-0175C2?logo=dart&logoColor=white&style=flat)](https://dart.dev/) [![CI](https://img.shields.io/github/actions/workflow/status/Syzygy-Hub/syzygy-core-flutter/ci.yml?label=ci&style=flat)](https://github.com/Syzygy-Hub/syzygy-core-flutter/actions/workflows/ci.yml) [![Version](https://img.shields.io/badge/version-1.0.0-D85A30?style=flat)](https://github.com/Syzygy-Hub/syzygy-core-flutter/releases) [![License](https://img.shields.io/badge/License-MIT-green?style=flat)](LICENSE)
 
 Core infrastructure modules for the Syzygy Flutter ecosystem — dependency injection, state management, event bus, logging, feature flags, navigation, validation, configuration, app lifecycle, and scheduling.
 
@@ -35,7 +35,7 @@ dependencies:
   syzygy_core_flutter:
     git:
       url: https://github.com/Syzygy-Hub/syzygy-core-flutter.git
-      ref: 1.0.0
+      ref: '1.1.0'
 ```
 
 Then run:
