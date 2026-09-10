@@ -9,7 +9,7 @@ class RequiredValidator extends ValidationRule<String?> {
   @override
   ValidationResult validate(String? value) {
     if (value == null || value.isEmpty) {
-      return Invalid(['Value is required.']);
+      return const Invalid(['Value is required.']);
     }
     return const Valid();
   }
@@ -56,7 +56,7 @@ class EmailValidator extends ValidationRule<String> {
   @override
   ValidationResult validate(String value) {
     if (!_emailRegex.hasMatch(value)) {
-      return Invalid(['Invalid email address.']);
+      return const Invalid(['Invalid email address.']);
     }
     return const Valid();
   }
