@@ -62,10 +62,20 @@ class InMemoryFeatureFlagProvider implements FeatureFlagProvider {
   @override
   T value<T>(FeatureFlag<T> flag) {
     if (_overrides.containsKey(flag.key)) {
-      return _overrides[flag.key] as T;
+      final raw = _overrides[flag.key];
+      if (raw is T) return raw;
+      throw StateError(
+        'Feature flag "${flag.key}" override has type '
+        '${raw?.runtimeType} but expected $T.',
+      );
     }
     if (_values.containsKey(flag.key)) {
-      return _values[flag.key] as T;
+      final raw = _values[flag.key];
+      if (raw is T) return raw;
+      throw StateError(
+        'Feature flag "${flag.key}" value has type '
+        '${raw?.runtimeType} but expected $T.',
+      );
     }
     return flag.defaultValue;
   }

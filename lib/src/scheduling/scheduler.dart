@@ -80,7 +80,7 @@ class Debouncer {
 /// Throttles calls so at most one invocation fires per [interval].
 ///
 /// The first call fires immediately; subsequent calls within the interval
-/// are dropped.
+/// are dropped. Once the cooldown period elapses, the next call fires again.
 ///
 /// ```dart
 /// final throttler = Throttler(Duration(milliseconds: 500));
@@ -89,23 +89,39 @@ class Debouncer {
 class Throttler {
   final Duration _interval;
   final SchedulerProtocol _scheduler;
-  CancellableTask? _cooldown;
 
-  /// Creates a throttler with the given [interval] and optional [scheduler].
-  Throttler(Duration interval, {SchedulerProtocol? scheduler})
-      : _interval = interval,
-        _scheduler = scheduler ?? DefaultScheduler();
+  /// Injectable clock function for deterministic testing. Defaults to
+  /// [DateTime.now]. The scheduler governs actual delay timing; [clock] may
+  /// be used by callers to inspect or record the current time in tests.
+  final DateTime Function() clock;
+
+  CancellableTask? _cooldown;
+  bool _inCooldown = false;
+
+  /// Creates a throttler with the given [interval], optional [scheduler], and
+  /// optional [clock] (defaults to [DateTime.now]).
+  Throttler(
+    Duration interval, {
+    SchedulerProtocol? scheduler,
+    DateTime Function()? clock,
+  })  : _interval = interval,
+        _scheduler = scheduler ?? DefaultScheduler(),
+        clock = clock ?? DateTime.now;
 
   /// Executes [action] if no cooldown is active, then starts the cooldown.
   void call(void Function() action) {
-    if (_cooldown != null && !_cooldown!.isCancelled) return;
+    if (_inCooldown) return;
     action();
-    _cooldown = _scheduler.schedule(_interval, () {});
+    _inCooldown = true;
+    _cooldown = _scheduler.schedule(_interval, () {
+      _inCooldown = false;
+    });
   }
 
   /// Cancels the cooldown, allowing the next call to fire immediately.
   void cancel() {
     _cooldown?.cancel();
     _cooldown = null;
+    _inCooldown = false;
   }
 }

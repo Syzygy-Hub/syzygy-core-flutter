@@ -32,9 +32,25 @@ class EventBus {
   final Map<Type, List<_Subscription>> _subscriptions = {};
   bool _disposed = false;
 
+  /// Optional callback invoked when a handler throws.
+  ///
+  /// Receives the [error] and the [event] that caused it.
+  /// When null, errors are printed to the console.
+  final void Function(Object error, dynamic event)? onHandlerError;
+
+  /// Creates an [EventBus].
+  ///
+  /// If [onHandlerError] is provided, it is called whenever a subscriber
+  /// handler throws. When null, errors are printed via [print].
+  EventBus({this.onHandlerError});
+
   /// Publishes an [event] to all subscribers of type [E].
   ///
-  /// Throws [StateError] if the bus has been disposed.
+  /// Each handler is invoked asynchronously via [Future.microtask], so a
+  /// failing handler does not block the others. Errors thrown by handlers are
+  /// caught and printed; they do not propagate to the caller.
+  ///
+  /// Throws [StateError] synchronously if the bus has been disposed.
   void publish<E>(E event) {
     if (_disposed) {
       throw StateError('Cannot publish on a disposed EventBus.');
@@ -44,7 +60,19 @@ class EventBus {
     // Iterate over a copy so handlers can cancel during iteration.
     for (final sub in List.of(subs)) {
       if (!sub.token.isCancelled) {
-        (sub.handler as void Function(E))(event);
+        final handler = sub.handler as void Function(E);
+        Future.microtask(() {
+          try {
+            handler(event);
+          } catch (e) {
+            if (onHandlerError != null) {
+              onHandlerError!(e, event);
+            } else {
+              // ignore: avoid_print
+              print('EventBus handler error: $e');
+            }
+          }
+        });
       }
     }
   }

@@ -44,10 +44,20 @@ class ConfigRegistry {
   T get<T>(ConfigKey<T> key) {
     final envMap = _envValues[_environment];
     if (envMap != null && envMap.containsKey(key.name)) {
-      return envMap[key.name] as T;
+      final raw = envMap[key.name];
+      if (raw is T) return raw;
+      throw StateError(
+        'Config key "${key.name}" environment value has type '
+        '${raw?.runtimeType} but expected $T.',
+      );
     }
     if (_globalValues.containsKey(key.name)) {
-      return _globalValues[key.name] as T;
+      final raw = _globalValues[key.name];
+      if (raw is T) return raw;
+      throw StateError(
+        'Config key "${key.name}" global value has type '
+        '${raw?.runtimeType} but expected $T.',
+      );
     }
     return key.defaultValue;
   }

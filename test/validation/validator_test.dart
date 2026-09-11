@@ -18,7 +18,7 @@ void main() {
     });
 
     test('EmailValidator accepts and rejects', () {
-      final v = EmailValidator();
+      const v = EmailValidator();
       expect(v.validate('a@b.c'), isA<Valid>());
       expect(v.validate('not-email'), isA<Invalid>());
     });
@@ -51,6 +51,28 @@ void main() {
       final msgs = (result as Invalid).messages;
       expect(msgs.any((m) => m.contains('at least 5')), isTrue);
       expect(msgs.any((m) => m.contains('digits')), isTrue);
+    });
+
+    test('strict mode accepts valid email', () {
+      const v = EmailValidator(strict: true);
+      expect(v.validate('user@example.com'), isA<Valid>());
+    });
+
+    test('strict mode rejects local part over 64 chars', () {
+      const v = EmailValidator(strict: true);
+      final longLocal = 'a' * 65;
+      expect(v.validate('$longLocal@example.com'), isA<Invalid>());
+    });
+
+    test('strict mode rejects total length over 255', () {
+      const v = EmailValidator(strict: true);
+      final longDomain = 'a' * 250;
+      expect(v.validate('user@$longDomain.com'), isA<Invalid>());
+    });
+
+    test('strict mode rejects consecutive dots', () {
+      const v = EmailValidator(strict: true);
+      expect(v.validate('user..name@example.com'), isA<Invalid>());
     });
   });
 }

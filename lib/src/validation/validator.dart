@@ -50,13 +50,45 @@ class MaxLengthValidator extends ValidationRule<String> {
 }
 
 /// Validates that a string looks like an email address.
+///
+/// Uses a well-formed heuristic pattern. Not RFC 5321 compliant by default.
+/// When [strict] is true, applies RFC 5321 constraints:
+/// - Local part (before @) must be at most 64 characters.
+/// - Total length must be at most 255 characters.
+/// - No consecutive dots anywhere.
+/// - Local part must not start or end with a dot.
 class EmailValidator extends ValidationRule<String> {
   static final _emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+
+  /// When true, applies strict RFC 5321 rules in addition to the basic pattern.
+  final bool strict;
+
+  /// Creates an [EmailValidator].
+  ///
+  /// Set [strict] to true to enable RFC 5321 additional constraints.
+  const EmailValidator({this.strict = false});
 
   @override
   ValidationResult validate(String value) {
     if (!_emailRegex.hasMatch(value)) {
       return const Invalid(['Invalid email address.']);
+    }
+    if (strict) {
+      final atIndex = value.indexOf('@');
+      final local = value.substring(0, atIndex);
+
+      if (local.length > 64) {
+        return const Invalid(['Local part must be at most 64 characters.']);
+      }
+      if (value.length > 255) {
+        return const Invalid(['Email address must be at most 255 characters.']);
+      }
+      if (value.contains('..')) {
+        return const Invalid(['Email address must not contain consecutive dots.']);
+      }
+      if (local.startsWith('.') || local.endsWith('.')) {
+        return const Invalid(['Local part must not start or end with a dot.']);
+      }
     }
     return const Valid();
   }

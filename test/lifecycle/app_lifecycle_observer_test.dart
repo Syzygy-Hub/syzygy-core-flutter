@@ -1,5 +1,6 @@
 import 'package:test/test.dart';
 import 'package:syzygy_core_flutter/syzygy_core_flutter.dart';
+import 'package:syzygy_foundation_flutter/syzygy_foundation_flutter.dart';
 
 class _TestObserver implements AppLifecycleObserver {
   final List<AppLifecycleState> changes = [];
@@ -46,6 +47,33 @@ void main() {
       tracker.addObserver(observer);
       tracker.transition(AppLifecycleState.terminated);
       expect(tracker.currentState, AppLifecycleState.terminated);
+    });
+
+    test('lastTransitionAt is null before any transition', () {
+      final tracker = AppLifecycleTracker();
+      expect(tracker.lastTransitionAt, isNull);
+    });
+
+    test('lastTransitionAt is recorded on transition', () {
+      final tracker = AppLifecycleTracker();
+      final before = SyzygyTimestamp.now();
+      tracker.transition(AppLifecycleState.background);
+      final after = SyzygyTimestamp.now();
+      expect(tracker.lastTransitionAt, isNotNull);
+      expect(
+        tracker.lastTransitionAt!.millisecondsSinceEpoch,
+        greaterThanOrEqualTo(before.millisecondsSinceEpoch),
+      );
+      expect(
+        tracker.lastTransitionAt!.millisecondsSinceEpoch,
+        lessThanOrEqualTo(after.millisecondsSinceEpoch),
+      );
+    });
+
+    test('lastTransitionAt is not updated on same-state transition', () {
+      final tracker = AppLifecycleTracker();
+      tracker.transition(AppLifecycleState.active); // same state — no-op
+      expect(tracker.lastTransitionAt, isNull);
     });
   });
 }
