@@ -128,7 +128,7 @@ void main() {
       final dest = _TestDestination();
       logger.addDestination(dest);
 
-      final ts = const foundation.SyzygyTimestamp(1000000);
+      const ts = foundation.SyzygyTimestamp(1000000);
       logger.log(
         foundation.LogEntry(
           level: foundation.LogLevel.info,
