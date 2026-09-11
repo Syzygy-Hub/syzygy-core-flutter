@@ -80,5 +80,27 @@ void main() {
       throttler.call(() => count++);
       expect(count, 2);
     });
+
+    test('fires again after cooldown expires', () {
+      final scheduler = _FakeScheduler();
+      // Inject a fake clock for deterministic time inspection.
+      var fakeNow = DateTime(2026, 9, 11);
+      final throttler = Throttler(
+        const Duration(milliseconds: 100),
+        scheduler: scheduler,
+        clock: () => fakeNow,
+      );
+      var count = 0;
+      throttler.call(() => count++);
+      expect(count, 1);
+      throttler.call(() => count++); // dropped — still in cooldown
+      expect(count, 1);
+      // Simulate cooldown expiring by running the scheduled action.
+      scheduler.runAll();
+      // Advance fake clock past interval.
+      fakeNow = fakeNow.add(const Duration(milliseconds: 101));
+      throttler.call(() => count++);
+      expect(count, 2);
+    });
   });
 }

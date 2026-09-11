@@ -1,3 +1,5 @@
+import 'package:syzygy_foundation_flutter/syzygy_foundation_flutter.dart';
+
 /// Application lifecycle state.
 enum AppLifecycleState {
   /// The app is visible and responding to user input.
@@ -28,10 +30,17 @@ abstract class AppLifecycleObserver {
 /// ```
 class AppLifecycleTracker {
   AppLifecycleState _currentState = AppLifecycleState.active;
+  SyzygyTimestamp? _lastTransitionAt;
   final List<AppLifecycleObserver> _observers = [];
 
   /// The current lifecycle state.
   AppLifecycleState get currentState => _currentState;
+
+  /// The [SyzygyTimestamp] recorded at the most recent successful [transition].
+  ///
+  /// Returns null if no transition has occurred yet (i.e. the tracker is still
+  /// in its initial [AppLifecycleState.active] state).
+  SyzygyTimestamp? get lastTransitionAt => _lastTransitionAt;
 
   /// Adds an [observer] to receive lifecycle notifications.
   void addObserver(AppLifecycleObserver observer) {
@@ -45,10 +54,12 @@ class AppLifecycleTracker {
 
   /// Transitions to [state] and notifies all observers.
   ///
-  /// If the state is the same as the current state, observers are not notified.
+  /// If the state is the same as the current state, observers are not notified
+  /// and [lastTransitionAt] is not updated.
   void transition(AppLifecycleState state) {
     if (_currentState == state) return;
     _currentState = state;
+    _lastTransitionAt = SyzygyTimestamp.now();
     for (final observer in List.of(_observers)) {
       observer.onLifecycleChange(state);
     }

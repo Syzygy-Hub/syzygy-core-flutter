@@ -33,14 +33,19 @@ class Container {
   final Map<Type, _Registration> _registrations = {};
   final Map<Type, Object?> _scopedInstances = {};
   final Set<Type> _resolving = {};
+  bool _disposed = false;
 
   /// Creates a new container, optionally as a child of [parent].
   Container({Container? parent}) : _parent = parent;
 
   /// Registers a factory for type [T] with the given [lifetime].
   ///
-  /// Throws [StateError] if [T] is already registered in this container.
+  /// Throws [StateError] if [T] is already registered in this container,
+  /// or if the container has been disposed.
   void register<T>(Lifetime lifetime, T Function(Container) factory) {
+    if (_disposed) {
+      throw StateError('Cannot register on a disposed Container.');
+    }
     if (_registrations.containsKey(T)) {
       throw StateError('Type $T is already registered.');
     }
@@ -56,6 +61,9 @@ class Container {
   }
 
   T _resolve<T>(Type type) {
+    if (_disposed) {
+      throw StateError('Cannot resolve on a disposed Container.');
+    }
     // Check for circular dependency.
     if (_resolving.contains(type)) {
       throw StateError('Circular dependency detected while resolving $type.');
@@ -89,6 +97,11 @@ class Container {
         }
 
       case Lifetime.scoped:
+        // Scoped instances are cached in the container that performs the
+        // resolution (i.e. `this`), not in the container that owns the
+        // registration. This means two sibling child containers each cache
+        // their own independent instance, and resolving from the parent
+        // container caches the instance in the parent's own scope.
         if (_scopedInstances.containsKey(type)) {
           return _scopedInstances[type] as T;
         }
@@ -123,5 +136,14 @@ class Container {
   /// Scoped registrations resolved in the child will have their own instances.
   Container createChildContainer() {
     return Container(parent: this);
+  }
+
+  /// Disposes the container, clearing all registrations and caches.
+  ///
+  /// After disposal, [register] and [resolve] throw [StateError].
+  void dispose() {
+    _disposed = true;
+    _registrations.clear();
+    _scopedInstances.clear();
   }
 }

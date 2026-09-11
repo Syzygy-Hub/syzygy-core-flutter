@@ -35,19 +35,45 @@ enum LogLevel implements Comparable<LogLevel> {
 /// A destination that receives formatted log messages.
 abstract class LogDestination {
   /// Writes a log [message] at the given [level] with optional [metadata].
-  void write(String message, LogLevel level, Map<String, String> metadata);
+  ///
+  /// [timestamp] is the point-in-time the message was generated; it is null
+  /// when the message originates from Core convenience methods rather than a
+  /// Foundation [foundation.LogEntry].
+  ///
+  /// [error] carries an associated exception or error object, if any.
+  void write(
+    String message,
+    LogLevel level,
+    Map<String, String> metadata, {
+    foundation.SyzygyTimestamp? timestamp,
+    Object? error,
+  });
 }
 
 /// A log destination that prints to stdout.
 class ConsoleLogDestination implements LogDestination {
   @override
-  void write(String message, LogLevel level, Map<String, String> metadata) {
+  void write(
+    String message,
+    LogLevel level,
+    Map<String, String> metadata, {
+    foundation.SyzygyTimestamp? timestamp,
+    Object? error,
+  }) {
+    final ts =
+        timestamp != null
+            ? ' [${timestamp.toDateTime().toIso8601String()}]'
+            : '';
     final meta =
         metadata.isNotEmpty
             ? ' ${metadata.entries.map((e) => '${e.key}=${e.value}').join(', ')}'
             : '';
     // ignore: avoid_print
-    print('[${level.name.toUpperCase()}] $message$meta');
+    print('[${level.name.toUpperCase()}]$ts $message$meta');
+    if (error != null) {
+      // ignore: avoid_print
+      print('  error: $error');
+    }
   }
 }
 
@@ -83,13 +109,17 @@ class Logger implements foundation.LoggerProtocol {
   // Foundation LoggerProtocol implementation                            //
   // ------------------------------------------------------------------ //
 
-  /// Dispatches a Foundation [entry] to all registered Core destinations.
-  ///
-  /// Foundation's [foundation.LogLevel] is mapped to Core's [LogLevel];
-  /// there is no Foundation equivalent of [LogLevel.verbose].
+  /// Dispatches a Foundation [entry] to all registered Core destinations,
+  /// forwarding [foundation.LogEntry.timestamp] and [foundation.LogEntry.error].
   @override
   void log(foundation.LogEntry entry) {
-    _dispatch(_toCoreLevel(entry.level), entry.message, entry.metadata);
+    _dispatch(
+      _toCoreLevel(entry.level),
+      entry.message,
+      entry.metadata,
+      timestamp: entry.timestamp,
+      error: entry.error,
+    );
   }
 
   // Override Foundation's convenience defaults with Core signatures that
@@ -113,7 +143,7 @@ class Logger implements foundation.LoggerProtocol {
     Object? error,
     Map<String, String> metadata = const {},
   }) =>
-      _dispatch(LogLevel.error, message, metadata);
+      _dispatch(LogLevel.error, message, metadata, error: error);
 
   @override
   void critical(
@@ -121,7 +151,7 @@ class Logger implements foundation.LoggerProtocol {
     Object? error,
     Map<String, String> metadata = const {},
   }) =>
-      _dispatch(LogLevel.critical, message, metadata);
+      _dispatch(LogLevel.critical, message, metadata, error: error);
 
   // ------------------------------------------------------------------ //
   // Core-only extensions                                                //
@@ -135,10 +165,22 @@ class Logger implements foundation.LoggerProtocol {
   // Internal routing                                                    //
   // ------------------------------------------------------------------ //
 
-  void _dispatch(LogLevel level, String message, Map<String, String> meta) {
+  void _dispatch(
+    LogLevel level,
+    String message,
+    Map<String, String> meta, {
+    foundation.SyzygyTimestamp? timestamp,
+    Object? error,
+  }) {
     for (final entry in _destinations) {
       if (level >= entry.minLevel) {
-        entry.destination.write(message, level, meta);
+        entry.destination.write(
+          message,
+          level,
+          meta,
+          timestamp: timestamp,
+          error: error,
+        );
       }
     }
   }

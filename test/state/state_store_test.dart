@@ -44,5 +44,20 @@ void main() {
       store.dispose();
       expect(() => store.dispatch('x'), throwsStateError);
     });
+
+    test('concurrentDispatchesDoNotLoseUpdates', () async {
+      final store = StateStore<int, int>(0, reducer: (s, a) => s + a);
+      await Future.wait(
+        List.generate(100, (_) => Future(() => store.dispatch(1))),
+      );
+      expect(store.state, 100);
+      store.dispose();
+    });
+
+    test('stateStoreDisposePreventsdispatch', () {
+      final store = StateStore<int, String>(0, reducer: (s, a) => s);
+      store.dispose();
+      expect(() => store.dispatch('x'), throwsStateError);
+    });
   });
 }

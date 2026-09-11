@@ -50,5 +50,32 @@ void main() {
         throwsStateError,
       );
     });
+
+    test('two child containers get independent scoped instances', () {
+      final container = Container();
+      container.register<List<String>>(Lifetime.scoped, (_) => <String>[]);
+      final child1 = container.createChildContainer();
+      final child2 = container.createChildContainer();
+      final a = child1.resolve<List<String>>();
+      final b = child2.resolve<List<String>>();
+      expect(identical(a, b), isFalse,
+          reason: 'Sibling child containers must have independent scoped instances');
+    });
+
+    test('scoped resolved through parent caches in parent scope', () {
+      final container = Container();
+      container.register<List<String>>(Lifetime.scoped, (_) => <String>[]);
+      final a = container.resolve<List<String>>();
+      final b = container.resolve<List<String>>();
+      expect(identical(a, b), isTrue,
+          reason: 'Resolving scoped from the same container must return the cached instance');
+    });
+
+    test('containerDisposePreventsByResolve', () {
+      final container = Container();
+      container.register<int>(Lifetime.transient, (_) => 42);
+      container.dispose();
+      expect(() => container.resolve<int>(), throwsStateError);
+    });
   });
 }

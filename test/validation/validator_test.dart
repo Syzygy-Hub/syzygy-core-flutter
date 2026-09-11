@@ -52,5 +52,27 @@ void main() {
       expect(msgs.any((m) => m.contains('at least 5')), isTrue);
       expect(msgs.any((m) => m.contains('digits')), isTrue);
     });
+
+    test('strict mode accepts valid email', () {
+      final v = EmailValidator(strict: true);
+      expect(v.validate('user@example.com'), isA<Valid>());
+    });
+
+    test('strict mode rejects local part over 64 chars', () {
+      final v = EmailValidator(strict: true);
+      final longLocal = 'a' * 65;
+      expect(v.validate('$longLocal@example.com'), isA<Invalid>());
+    });
+
+    test('strict mode rejects total length over 255', () {
+      final v = EmailValidator(strict: true);
+      final longDomain = 'a' * 250;
+      expect(v.validate('user@$longDomain.com'), isA<Invalid>());
+    });
+
+    test('strict mode rejects consecutive dots', () {
+      final v = EmailValidator(strict: true);
+      expect(v.validate('user..name@example.com'), isA<Invalid>());
+    });
   });
 }
