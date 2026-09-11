@@ -130,7 +130,7 @@ void main() {
 
       const ts = foundation.SyzygyTimestamp(1000000);
       logger.log(
-        foundation.LogEntry(
+        const foundation.LogEntry(
           level: foundation.LogLevel.info,
           message: 'ts test',
           timestamp: ts,
