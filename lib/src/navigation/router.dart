@@ -136,12 +136,11 @@ class _PatternEntry {
 
   _PatternEntry(this.pattern, this.routeFactory)
       : _segments = pattern.split('/').where((s) => s.isNotEmpty).toList(),
-        _paramNames =
-            pattern
-                .split('/')
-                .where((s) => s.isNotEmpty)
-                .map((s) => s.startsWith(':') ? s.substring(1) : null)
-                .toList();
+        _paramNames = pattern
+            .split('/')
+            .where((s) => s.isNotEmpty)
+            .map((s) => s.startsWith(':') ? s.substring(1) : null)
+            .toList();
 
   Map<String, String>? match(String path) {
     final pathSegments = path.split('/').where((s) => s.isNotEmpty).toList();

@@ -43,7 +43,10 @@ void main() {
 
     test('ValidationPipeline collectAll joins all errors', () {
       final pipeline = ValidationPipeline<String>(
-        [MinLengthValidator(5), RegexValidator(RegExp(r'^\d+$'), message: 'digits')],
+        [
+          MinLengthValidator(5),
+          RegexValidator(RegExp(r'^\d+$'), message: 'digits')
+        ],
         mode: ValidationMode.collectAll,
       );
       final result = pipeline.validate('ab');

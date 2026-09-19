@@ -60,7 +60,8 @@ void main() {
   group('DeepLinkParser', () {
     test('parses parameterized URL', () {
       final parser = DeepLinkParser();
-      parser.register('/user/:id', (params) => _TestRoute('/user/${params["id"]}', params));
+      parser.register(
+          '/user/:id', (params) => _TestRoute('/user/${params["id"]}', params));
       final route = parser.parse('/user/42');
       expect(route, isNotNull);
       expect(route!.parameters['id'], '42');

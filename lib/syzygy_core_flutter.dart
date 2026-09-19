@@ -1,10 +1,15 @@
 /// Core infrastructure modules for the Syzygy Flutter ecosystem.
+// ignore: unnecessary_library_name
 library syzygy_core_flutter;
 
 export 'src/di/container.dart';
 export 'src/state/state_store.dart';
 export 'src/eventbus/event_bus.dart';
+// HI-08: logger.dart's _CoreLogLevel is library-private and not exported.
+// Re-export Foundation's LogLevel so consumers get the canonical 5-case type.
 export 'src/logging/logger.dart';
+export 'package:syzygy_foundation_flutter/syzygy_foundation_flutter.dart'
+    show LogLevel;
 export 'src/featureflags/feature_flag_provider.dart';
 export 'src/navigation/router.dart';
 export 'src/validation/validator.dart';

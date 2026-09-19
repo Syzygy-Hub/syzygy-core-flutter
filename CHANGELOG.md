@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [1.2.0] - 2026-09-18
+
+### Changed
+- `LogLevel` now re-exported from Foundation — local duplicate removed (`verbose()` dispatches as `debug` until Foundation adds `LogLevel.verbose`)
+- Foundation dependency updated to ^1.2.0
+- `dart format` applied across all source files
+- Concurrency tests added for Logger
+- `analysis_options.yaml` committed with strict mode enabled
+
+## Known Limitations
+
+- `Logger.verbose()` dispatches as `LogLevel.debug` until Foundation v1.2.0
+  adds `LogLevel.verbose`. Verbose-only destinations receive debug-level entries.
+
 ## [1.1.0] - 2026-09-11
 
 ### Fixed
@@ -34,5 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - App Lifecycle — foreground/background state tracking, lifecycle observers, lifecycle-aware scoping
 - Scheduling — debounce, throttle, delayed execution, cancellable timers
 
-[1.1.0]: https://github.com/Syzygy-Hub/syzygy-core-flutter/releases/tag/1.1.0
+[Unreleased]: https://github.com/Syzygy-Hub/syzygy-core-flutter/compare/1.2.0...HEAD
+[1.2.0]: https://github.com/Syzygy-Hub/syzygy-core-flutter/compare/1.1.0...1.2.0
+[1.1.0]: https://github.com/Syzygy-Hub/syzygy-core-flutter/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/Syzygy-Hub/syzygy-core-flutter/releases/tag/1.0.0

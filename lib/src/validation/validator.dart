@@ -84,7 +84,8 @@ class EmailValidator extends ValidationRule<String> {
         return const Invalid(['Email address must be at most 255 characters.']);
       }
       if (value.contains('..')) {
-        return const Invalid(['Email address must not contain consecutive dots.']);
+        return const Invalid(
+            ['Email address must not contain consecutive dots.']);
       }
       if (local.startsWith('.') || local.endsWith('.')) {
         return const Invalid(['Local part must not start or end with a dot.']);
@@ -135,7 +136,8 @@ class ValidationPipeline<T> extends ValidationRule<T> {
   final ValidationMode mode;
 
   /// Creates a pipeline with the given [validators] and [mode].
-  ValidationPipeline(this.validators, {this.mode = ValidationMode.shortCircuit});
+  ValidationPipeline(this.validators,
+      {this.mode = ValidationMode.shortCircuit});
 
   @override
   ValidationResult validate(T value) {

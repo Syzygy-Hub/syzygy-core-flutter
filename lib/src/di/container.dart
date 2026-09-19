@@ -30,7 +30,7 @@ class _Registration<T> {
 /// ```
 class Container {
   final Container? _parent;
-  final Map<Type, _Registration> _registrations = {};
+  final Map<Type, _Registration<dynamic>> _registrations = {};
   final Map<Type, Object?> _scopedInstances = {};
   final Set<Type> _resolving = {};
   bool _disposed = false;
@@ -124,7 +124,7 @@ class Container {
     return c;
   }
 
-  _Registration? _findRegistration(Type type) {
+  _Registration<dynamic>? _findRegistration(Type type) {
     if (_registrations.containsKey(type)) {
       return _registrations[type];
     }
