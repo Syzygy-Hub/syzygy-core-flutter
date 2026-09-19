@@ -44,10 +44,11 @@ void main() {
     test('cancelled task does not execute', () async {
       final scheduler = DefaultScheduler();
       var ran = false;
-      final task = scheduler.schedule(const Duration(milliseconds: 10), () => ran = true);
+      final task = scheduler.schedule(
+          const Duration(milliseconds: 10), () => ran = true);
       task.cancel();
       expect(task.isCancelled, isTrue);
-      await Future.delayed(const Duration(milliseconds: 50));
+      await Future<void>.delayed(const Duration(milliseconds: 50));
       expect(ran, isFalse);
     });
   });
@@ -55,7 +56,8 @@ void main() {
   group('Debouncer', () {
     test('only fires the last call', () {
       final scheduler = _FakeScheduler();
-      final debouncer = Debouncer(const Duration(milliseconds: 100), scheduler: scheduler);
+      final debouncer =
+          Debouncer(const Duration(milliseconds: 100), scheduler: scheduler);
       var count = 0;
       debouncer.call(() => count = 1);
       debouncer.call(() => count = 2);
@@ -70,7 +72,8 @@ void main() {
   group('Throttler', () {
     test('fires first call, ignores subsequent until cooldown', () {
       final scheduler = _FakeScheduler();
-      final throttler = Throttler(const Duration(milliseconds: 100), scheduler: scheduler);
+      final throttler =
+          Throttler(const Duration(milliseconds: 100), scheduler: scheduler);
       var count = 0;
       throttler.call(() => count++);
       throttler.call(() => count++); // should be dropped

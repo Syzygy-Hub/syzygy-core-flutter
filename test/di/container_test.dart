@@ -6,7 +6,8 @@ void main() {
     test('registers and resolves a transient dependency', () {
       final container = Container();
       var count = 0;
-      container.register<String>(Lifetime.transient, (_) => 'instance_${++count}');
+      container.register<String>(
+          Lifetime.transient, (_) => 'instance_${++count}');
       expect(container.resolve<String>(), 'instance_1');
       expect(container.resolve<String>(), 'instance_2');
     });
@@ -19,13 +20,18 @@ void main() {
       expect(identical(a, b), isTrue);
     });
 
-    test('scoped returns same instance in child, different across children', () {
+    test('scoped returns same instance in child, different across children',
+        () {
       final container = Container();
       container.register<List<int>>(Lifetime.scoped, (_) => <int>[]);
       final child1 = container.createChildContainer();
       final child2 = container.createChildContainer();
-      expect(identical(child1.resolve<List<int>>(), child1.resolve<List<int>>()), isTrue);
-      expect(identical(child1.resolve<List<int>>(), child2.resolve<List<int>>()), isFalse);
+      expect(
+          identical(child1.resolve<List<int>>(), child1.resolve<List<int>>()),
+          isTrue);
+      expect(
+          identical(child1.resolve<List<int>>(), child2.resolve<List<int>>()),
+          isFalse);
     });
 
     test('throws on circular dependency', () {
@@ -59,7 +65,8 @@ void main() {
       final a = child1.resolve<List<String>>();
       final b = child2.resolve<List<String>>();
       expect(identical(a, b), isFalse,
-          reason: 'Sibling child containers must have independent scoped instances');
+          reason:
+              'Sibling child containers must have independent scoped instances');
     });
 
     test('scoped resolved through parent caches in parent scope', () {
@@ -68,7 +75,8 @@ void main() {
       final a = container.resolve<List<String>>();
       final b = container.resolve<List<String>>();
       expect(identical(a, b), isTrue,
-          reason: 'Resolving scoped from the same container must return the cached instance');
+          reason:
+              'Resolving scoped from the same container must return the cached instance');
     });
 
     test('containerDisposePreventsByResolve', () {

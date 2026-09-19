@@ -5,14 +5,13 @@ import 'package:syzygy_foundation_flutter/syzygy_foundation_flutter.dart'
 
 class _TestDestination implements LogDestination {
   final List<
-    (
-      String,
-      LogLevel,
-      Map<String, String>,
-      foundation.SyzygyTimestamp?,
-      Object?,
-    )
-  > messages = [];
+      (
+        String,
+        LogLevel,
+        Map<String, String>,
+        foundation.SyzygyTimestamp?,
+        Object?,
+      )> messages = [];
 
   @override
   void write(
@@ -52,11 +51,12 @@ void main() {
       final logger = Logger();
       final dest = _TestDestination();
       logger.addDestination(dest);
-      logger.verbose('v');
+      logger.verbose('v'); // verbose maps to debug at the destination boundary
       logger.debug('d');
       logger.critical('c');
       expect(dest.messages.map((m) => m.$2).toList(), [
-        LogLevel.verbose,
+        LogLevel
+            .debug, // verbose is Core-only; dispatched as debug to destinations
         LogLevel.debug,
         LogLevel.critical,
       ]);
@@ -78,7 +78,9 @@ void main() {
 
     // FIX 8 — Foundation LogEntry path tests
 
-    test('log(LogEntry) maps all 5 Foundation LogLevels to correct Core LogLevels', () {
+    test(
+        'log(LogEntry) maps all 5 Foundation LogLevels to correct Core LogLevels',
+        () {
       final logger = Logger();
       final dest = _TestDestination();
       logger.addDestination(dest);
@@ -102,7 +104,8 @@ void main() {
           ),
         );
         expect(dest.messages.first.$2, cLevel,
-            reason: 'Foundation ${fLevel.name} should map to Core ${cLevel.name}');
+            reason:
+                'Foundation ${fLevel.name} should map to Core ${cLevel.name}');
       }
     });
 
@@ -156,6 +159,27 @@ void main() {
       );
 
       expect(dest.messages.first.$5, err);
+    });
+
+    // MED-10: concurrent log calls
+    test('concurrent log calls complete without error', () async {
+      final logger = Logger();
+      final dest = _TestDestination();
+      logger.addDestination(dest);
+      final futures = List.generate(
+        10,
+        (i) => Future(
+          () => logger.log(
+            foundation.LogEntry(
+              level: LogLevel.debug,
+              message: 'message $i',
+              timestamp: foundation.SyzygyTimestamp.now(),
+            ),
+          ),
+        ),
+      );
+      await expectLater(Future.wait(futures), completes);
+      expect(dest.messages.length, 10);
     });
   });
 }

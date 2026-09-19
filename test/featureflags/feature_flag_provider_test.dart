@@ -3,7 +3,8 @@ import 'package:syzygy_core_flutter/syzygy_core_flutter.dart';
 
 void main() {
   group('FeatureFlagProvider', () {
-    const flag = FeatureFlag<bool>(key: 'dark', defaultValue: false, description: 'Dark mode');
+    const flag = FeatureFlag<bool>(
+        key: 'dark', defaultValue: false, description: 'Dark mode');
 
     test('returns default when no value set', () {
       final provider = InMemoryFeatureFlagProvider();

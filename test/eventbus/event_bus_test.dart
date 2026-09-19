@@ -79,7 +79,7 @@ void main() {
       final thrownError = Exception('handler error');
       bus.subscribe<String>((_) => throw thrownError);
       bus.publish<String>('test-event');
-      await Future.delayed(Duration.zero);
+      await Future<void>.delayed(Duration.zero);
       expect(capturedError, thrownError);
       expect(capturedEvent, 'test-event');
       bus.dispose();
