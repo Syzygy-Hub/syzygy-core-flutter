@@ -5,8 +5,8 @@ library syzygy_core_flutter;
 export 'src/di/container.dart';
 export 'src/state/state_store.dart';
 export 'src/eventbus/event_bus.dart';
-// HI-08: logger.dart's _CoreLogLevel is library-private and not exported.
-// Re-export Foundation's LogLevel so consumers get the canonical 5-case type.
+// HI-08: LogLevel is re-exported from Foundation (show LogLevel) so consumers
+// get the canonical 5-case type directly. No Core-private level type exists.
 export 'src/logging/logger.dart';
 export 'package:syzygy_foundation_flutter/syzygy_foundation_flutter.dart'
     show LogLevel;

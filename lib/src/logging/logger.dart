@@ -1,8 +1,7 @@
 import 'package:syzygy_foundation_flutter/syzygy_foundation_flutter.dart'
     as foundation;
 
-// TODO(v1.2.0): add a Core-only verbose tier once Foundation 1.2.0 ships its
-// equivalent.  Until then, Logger.verbose() maps to foundation.LogLevel.debug.
+// TODO(Foundation-future): verbose level not yet available in Foundation — add when Foundation ships it
 
 /// Adds a `>=` comparison operator to Foundation's [foundation.LogLevel]
 /// for use in Core's level-filtering logic.
@@ -139,10 +138,8 @@ class Logger implements foundation.LoggerProtocol {
   // ------------------------------------------------------------------ //
 
   /// Logs a verbose message. Core-only; not part of [foundation.LoggerProtocol].
-  // verbose maps to foundation.LogLevel.debug until Foundation v1.2.0
-  // adds LogLevel.verbose. Verbose-only log destinations will receive
-  // debug-level entries.
-  // TODO(Foundation-v1.2.0): update to LogLevel.verbose.
+  // verbose maps to foundation.LogLevel.debug at the destination boundary.
+  // TODO(Foundation-future): verbose level not yet available in Foundation — add when Foundation ships it
   /// Dispatched as [foundation.LogLevel.debug] to all registered destinations.
   void verbose(String message, {Map<String, String>? metadata}) =>
       _dispatch(foundation.LogLevel.debug, message, metadata ?? const {});

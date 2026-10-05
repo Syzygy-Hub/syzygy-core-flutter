@@ -1,4 +1,4 @@
-[![Flutter](https://img.shields.io/badge/Flutter-Dart-7F77DD?style=flat)](https://flutter.dev/) [![Dart](https://img.shields.io/badge/Dart-3.0-0175C2?logo=dart&logoColor=white&style=flat)](https://dart.dev/) [![CI](https://img.shields.io/github/actions/workflow/status/Syzygy-Hub/syzygy-core-flutter/ci.yml?label=ci&style=flat)](https://github.com/Syzygy-Hub/syzygy-core-flutter/actions/workflows/ci.yml) [![Version](https://img.shields.io/badge/version-1.2.0-D85A30?style=flat)](https://github.com/Syzygy-Hub/syzygy-core-flutter/releases) [![License](https://img.shields.io/badge/License-MIT-green?style=flat)](LICENSE)
+[![Flutter](https://img.shields.io/badge/Flutter-Dart-7F77DD?style=flat)](https://flutter.dev/) [![Dart](https://img.shields.io/badge/Dart-3.0-0175C2?logo=dart&logoColor=white&style=flat)](https://dart.dev/) [![CI](https://img.shields.io/github/actions/workflow/status/Syzygy-Hub/syzygy-core-flutter/ci.yml?label=ci&style=flat)](https://github.com/Syzygy-Hub/syzygy-core-flutter/actions/workflows/ci.yml) [![Version](https://img.shields.io/badge/version-3.0.0-D85A30?style=flat)](https://github.com/Syzygy-Hub/syzygy-core-flutter/releases) [![License](https://img.shields.io/badge/License-MIT-green?style=flat)](LICENSE)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Syzygy-Hub/.github/main/brand/assets/banners/syzygy-banner-dark-1200.png">
@@ -32,7 +32,7 @@ Add the dependency to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  syzygy_core_flutter: ^1.2.0
+  syzygy_core_flutter: ^3.0.0
 ```
 
 Then run:
@@ -48,7 +48,7 @@ import 'package:syzygy_core_flutter/syzygy_core_flutter.dart';
 
 final container = Container();
 final bus = EventBus();
-final scheduler = Scheduler();
+final scheduler = DefaultScheduler();
 ```
 
 ## Requirements
@@ -62,7 +62,7 @@ final scheduler = Scheduler();
 
 | Package | Version | Purpose |
 |---------|---------|---------|
-| `syzygy_foundation_flutter` | ≥ 1.2.0 | Foundation primitives (Result, Clock, protocols) |
+| `syzygy_foundation_flutter` | ≥ 3.0.0 | Foundation primitives (Result, Clock, protocols) |
 
 ## Ecosystem
 

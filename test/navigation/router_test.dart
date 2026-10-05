@@ -46,6 +46,13 @@ void main() {
       expect(router.currentRoute?.path, '/b');
     });
 
+    test('replace on empty stack pushes route with depth 1', () {
+      final router = Router();
+      router.replace(_TestRoute('/a'));
+      expect(router.stackDepth, 1);
+      expect(router.currentRoute?.path, '/a');
+    });
+
     test('popToRoot keeps only root', () {
       final router = Router();
       router.push(_TestRoute('/root'));
@@ -63,6 +70,15 @@ void main() {
       parser.register(
           '/user/:id', (params) => _TestRoute('/user/${params["id"]}', params));
       final route = parser.parse('/user/42');
+      expect(route, isNotNull);
+      expect(route!.parameters['id'], '42');
+    });
+
+    test('parses scheme URL (myapp://host/user/42)', () {
+      final parser = DeepLinkParser();
+      parser.register(
+          '/user/:id', (params) => _TestRoute('/user/${params["id"]}', params));
+      final route = parser.parse('myapp://host/user/42');
       expect(route, isNotNull);
       expect(route!.parameters['id'], '42');
     });

@@ -21,7 +21,7 @@ class SubscriptionToken {
 
 /// A typed publish/subscribe event bus for decoupled communication.
 ///
-/// Events are dispatched synchronously to all subscribers of the matching type.
+/// Events are dispatched asynchronously via [Future.microtask] to all subscribers of the matching type.
 ///
 /// ```dart
 /// final bus = EventBus();
