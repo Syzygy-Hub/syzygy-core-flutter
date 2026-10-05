@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-10-05
+
+### Changed
+- CI migrated from inline workflow to Syzygy-Hub reusable workflow (`flutter-ci.yml`)
+- Foundation dependency constraint updated to `>=3.0.0`
+
+### Fixed
+- Logger verbose TODO comments re-tagged to `TODO(Foundation-future)`
+
+---
+
 ## [1.2.0] - 2026-09-18
 
 ### Changed
@@ -16,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Concurrency tests added for Logger
 - `analysis_options.yaml` committed with strict mode enabled
 
-## Known Limitations
+### Known Limitations
 
 - `Logger.verbose()` dispatches as `LogLevel.debug` until Foundation v1.2.0
   adds `LogLevel.verbose`. Verbose-only destinations receive debug-level entries.
@@ -50,7 +61,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - App Lifecycle — foreground/background state tracking, lifecycle observers, lifecycle-aware scoping
 - Scheduling — debounce, throttle, delayed execution, cancellable timers
 
-[Unreleased]: https://github.com/Syzygy-Hub/syzygy-core-flutter/compare/1.2.0...HEAD
+[Unreleased]: https://github.com/Syzygy-Hub/syzygy-core-flutter/compare/3.0.0...HEAD
+[3.0.0]: https://github.com/Syzygy-Hub/syzygy-core-flutter/compare/1.2.0...3.0.0
 [1.2.0]: https://github.com/Syzygy-Hub/syzygy-core-flutter/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/Syzygy-Hub/syzygy-core-flutter/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/Syzygy-Hub/syzygy-core-flutter/releases/tag/1.0.0

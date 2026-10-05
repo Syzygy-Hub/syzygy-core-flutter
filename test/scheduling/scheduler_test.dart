@@ -54,6 +54,17 @@ void main() {
   });
 
   group('Debouncer', () {
+    test('cancel before action fires prevents execution', () {
+      final scheduler = _FakeScheduler();
+      final debouncer =
+          Debouncer(const Duration(milliseconds: 100), scheduler: scheduler);
+      var ran = false;
+      debouncer.call(() => ran = true);
+      debouncer.cancel();
+      scheduler.runAll();
+      expect(ran, isFalse);
+    });
+
     test('only fires the last call', () {
       final scheduler = _FakeScheduler();
       final debouncer =
@@ -70,6 +81,16 @@ void main() {
   });
 
   group('Throttler', () {
+    test('second call within cooldown interval does not execute', () {
+      final scheduler = _FakeScheduler();
+      final throttler =
+          Throttler(const Duration(milliseconds: 100), scheduler: scheduler);
+      var count = 0;
+      throttler.call(() => count++); // fires
+      throttler.call(() => count++); // dropped — still in cooldown
+      expect(count, 1);
+    });
+
     test('fires first call, ignores subsequent until cooldown', () {
       final scheduler = _FakeScheduler();
       final throttler =

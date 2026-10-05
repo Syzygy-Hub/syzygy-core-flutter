@@ -85,6 +85,20 @@ void main() {
       bus.dispose();
     });
 
+    test('async stress test: publish 10 events, all received', () async {
+      final bus = EventBus();
+      final received = <int>[];
+      bus.subscribe<int>((e) => received.add(e));
+      for (var i = 0; i < 10; i++) {
+        bus.publish<int>(i);
+      }
+      // Pump microtasks to allow all handlers to execute.
+      await Future<void>.delayed(Duration.zero);
+      expect(received.length, 10);
+      expect(received, List.generate(10, (i) => i));
+      bus.dispose();
+    });
+
     test('eventBusDisposePreventsPublish', () {
       final bus = EventBus();
       bus.dispose();

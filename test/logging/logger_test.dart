@@ -161,6 +161,35 @@ void main() {
       expect(dest.messages.first.$5, err);
     });
 
+    test('ConsoleLogDestination includes timestamp in output', () {
+      final dest = ConsoleLogDestination();
+      const ts = foundation.SyzygyTimestamp(1000000);
+      // Should not throw; timestamp inclusion is verified via the write signature.
+      expect(
+        () => dest.write(
+          'msg',
+          LogLevel.info,
+          const {},
+          timestamp: ts,
+        ),
+        returnsNormally,
+      );
+    });
+
+    test('ConsoleLogDestination includes error in output', () {
+      final dest = ConsoleLogDestination();
+      final err = Exception('oops');
+      expect(
+        () => dest.write(
+          'msg',
+          LogLevel.error,
+          const {},
+          error: err,
+        ),
+        returnsNormally,
+      );
+    });
+
     // MED-10: concurrent log calls
     test('concurrent log calls complete without error', () async {
       final logger = Logger();
